@@ -36,7 +36,7 @@ def save_inventory(inventory, filename):
             )
 
 
-   def display_menu():
+def display_menu():
     """Display the inventory menu."""
     print("\nInventory Manager")
     print("1. View inventory")
