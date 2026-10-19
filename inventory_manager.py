@@ -61,6 +61,44 @@ def view_inventory(inventory):
             f"Quantity: {item['quantity']}"
         )
 
+def add_item(inventory):
+    """Validate and add an item, returning True when successful."""
+    name = input("Enter the item name: ").strip()
+
+    if not name or "|" in name:
+        print("Item name cannot be empty or contain |.")
+        return False
+
+    for item in inventory:
+        if item["name"].casefold() == name.casefold():
+            print("An item with that name already exists.")
+            return False
+
+    category = input("Enter the category: ").strip()
+
+    if not category or "|" in category:
+        print("Category cannot be empty or contain |.")
+        return False
+
+    quantity_text = input("Enter the quantity: ").strip()
+
+    try:
+        quantity = int(quantity_text)
+    except ValueError:
+        print("Quantity must be a nonnegative whole number.")
+        return False
+
+    if quantity < 0:
+        print("Quantity must be a nonnegative whole number.")
+        return False
+
+    inventory.append({
+        "name": name,
+        "category": category,
+        "quantity": quantity
+    })
+    print("Item added successfully.")
+    return True
 
 def main():
     """Load inventory and handle the available menu choices."""
@@ -72,10 +110,13 @@ def main():
 
         if choice == "1":
             view_inventory(inventory)
+        elif choice == "2":
+            if add_item(inventory):
+                save_inventory(inventory, INVENTORY_FILE)
         elif choice == "7":
             print("Goodbye!")
             break
-        elif choice in ["2", "3", "4", "5", "6"]:
+        elif choice in ["3", "4", "5", "6"]:
             print("This feature is not available yet.")
         else:
             print("Please enter a number from 1 through 7.")
