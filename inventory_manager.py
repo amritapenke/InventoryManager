@@ -175,6 +175,30 @@ def search_inventory(inventory):
     else:
         print("No inventory items matched your search.")
 
+def display_summary(inventory):
+    """Display item counts, total quantity, and low-stock information."""
+    total_quantity = 0
+    low_stock = 0
+    categories = {}
+
+    for item in inventory:
+        total_quantity += item["quantity"]
+
+        if item["quantity"] < 5:
+            low_stock += 1
+
+        category = item["category"].casefold()
+        categories[category] = categories.get(category, 0) + 1
+
+    print("\nInventory Summary")
+    print(f"Unique items: {len(inventory)}")
+    print(f"Total quantity: {total_quantity}")
+    print(f"Low-stock items: {low_stock}")
+    print("\nItems by category:")
+
+    for category, count in categories.items():
+        print(f"{category}: {count}")
+
 def main():
     """Load inventory and handle the available menu choices."""
     inventory = load_inventory(INVENTORY_FILE)
@@ -202,7 +226,7 @@ def main():
         elif choice == "5":
             search_inventory(inventory)
         elif choice == "6":
-            print("This feature is not available yet.")
+            display_summary(inventory)
         else:
             print("Please enter a number from 1 through 7.")
 
