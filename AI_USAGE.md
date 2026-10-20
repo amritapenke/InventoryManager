@@ -34,15 +34,15 @@ files. All 18 checks passed. TESTING.md describes the actual checks.
 I checked Git status and pushed completed work to GitHub.
 
 ## Code Understanding
-The following explanations are my draft understanding and should
-be reviewed and rewritten in my own words before submission.
 
-load_inventory() reads each nonblank line and separates it at the
-pipe characters. It converts the quantity to an integer and stores
-each record as a dictionary in a list. A missing file returns an
-empty list.
+load_inventory() gets the saved items from the text file. It splits
+each line at the | symbols to separate the name, category, and
+quantity. It changes the quantity from text into an integer and
+puts each item's dictionary into a list. If the file is missing,
+it returns an empty list so the program can still start.
 
-search_inventory() removes whitespace from the search input and
-rejects an empty term. It uses casefold() on both the term and each
-item name so capitalization does not affect matching. It collects
-partial matches and displays them, or prints a no-match message.
+search_inventory() asks what item the user wants to find. It removes
+extra spaces at the beginning and end and rejects a blank search.
+It uses casefold() so uppercase and lowercase letters match.
+It checks whether the search text appears anywhere in each item
+name, then displays all matches or a message saying none were found.
