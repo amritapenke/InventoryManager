@@ -100,6 +100,63 @@ def add_item(inventory):
     print("Item added successfully.")
     return True
 
+def update_quantity(inventory):
+    """Update a selected item's quantity, returning True on success."""
+    if not inventory:
+        print("No inventory items found.")
+        return False
+
+    view_inventory(inventory)
+    selection = input("Enter the item number to update: ").strip()
+
+    try:
+        item_number = int(selection)
+    except ValueError:
+        print("Please enter a valid item number.")
+        return False
+
+    if item_number < 1 or item_number > len(inventory):
+        print("That item number does not exist.")
+        return False
+
+    quantity_text = input("Enter the new quantity: ").strip()
+
+    try:
+        quantity = int(quantity_text)
+    except ValueError:
+        print("Quantity must be a nonnegative whole number.")
+        return False
+
+    if quantity < 0:
+        print("Quantity must be a nonnegative whole number.")
+        return False
+
+    item = inventory[item_number - 1]
+    item["quantity"] = quantity
+    print(f"{item['name']} quantity updated to {quantity}.")
+    return True
+def remove_item(inventory):
+    """Remove a selected item, returning True on success."""
+    if not inventory:
+        print("No inventory items found.")
+        return False
+
+    view_inventory(inventory)
+
+    try:
+        number = int(input("Enter the item number to remove: ").strip())
+    except ValueError:
+        print("Please enter a valid item number.")
+        return False
+
+    if number < 1 or number > len(inventory):
+        print("That item number does not exist.")
+        return False
+
+    removed = inventory.pop(number - 1)
+    print(f"Item removed: {removed['name']}")
+    return True
+
 def main():
     """Load inventory and handle the available menu choices."""
     inventory = load_inventory(INVENTORY_FILE)
@@ -113,10 +170,21 @@ def main():
         elif choice == "2":
             if add_item(inventory):
                 save_inventory(inventory, INVENTORY_FILE)
+        if choice == "1":
+            view_inventory(inventory)
+        elif choice == "2":
+            if add_item(inventory):
+                save_inventory(inventory, INVENTORY_FILE)
+        elif choice == "3":
+            if update_quantity(inventory):
+                save_inventory(inventory, INVENTORY_FILE)
+        elif choice == "4":
+            if remove_item(inventory):
+                save_inventory(inventory, INVENTORY_FILE)
         elif choice == "7":
             print("Goodbye!")
             break
-        elif choice in ["3", "4", "5", "6"]:
+        elif choice in ["5", "6"]:
             print("This feature is not available yet.")
         else:
             print("Please enter a number from 1 through 7.")
