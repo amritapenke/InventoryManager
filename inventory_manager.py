@@ -157,6 +157,24 @@ def remove_item(inventory):
     print(f"Item removed: {removed['name']}")
     return True
 
+def search_inventory(inventory):
+    """Display all items matching a case-insensitive partial name."""
+    term = input("Enter part or all of an item name: ").strip()
+
+    if not term:
+        print("Search term cannot be empty.")
+        return
+
+    matches = []
+    for item in inventory:
+        if term.casefold() in item["name"].casefold():
+            matches.append(item)
+
+    if matches:
+        view_inventory(matches)
+    else:
+        print("No inventory items matched your search.")
+
 def main():
     """Load inventory and handle the available menu choices."""
     inventory = load_inventory(INVENTORY_FILE)
@@ -170,11 +188,8 @@ def main():
         elif choice == "2":
             if add_item(inventory):
                 save_inventory(inventory, INVENTORY_FILE)
-        if choice == "1":
-            view_inventory(inventory)
-        elif choice == "2":
-            if add_item(inventory):
-                save_inventory(inventory, INVENTORY_FILE)
+        elif choice == "5":
+            search_inventory(inventory)
         elif choice == "3":
             if update_quantity(inventory):
                 save_inventory(inventory, INVENTORY_FILE)
@@ -184,7 +199,9 @@ def main():
         elif choice == "7":
             print("Goodbye!")
             break
-        elif choice in ["5", "6"]:
+        elif choice == "5":
+            search_inventory(inventory)
+        elif choice == "6":
             print("This feature is not available yet.")
         else:
             print("Please enter a number from 1 through 7.")
