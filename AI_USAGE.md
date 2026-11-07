@@ -46,3 +46,10 @@ extra spaces at the beginning and end and rejects a blank search.
 It uses casefold() so uppercase and lowercase letters match.
 It checks whether the search text appears anywhere in each item
 name, then displays all matches or a message saying none were found.
+## Homework 2 — AI Usage
+
+I used ChatGPT to help refactor the Inventory Manager and develop automated pytest tests. AI suggested separating inventory operations into reusable helper functions and using fixtures, parameterization, and `tmp_path` for testing.
+
+I used these suggestions to improve the organization of the code and test loading, saving, searching, adding, removing, updating quantities, and inventory summaries. I also corrected file-naming issues while setting up the tests.
+
+I verified the results by running `python -m pytest -v` in VS Code and confirming that all 47 tests passed. I reviewed the test results and kept the original inventory data unchanged.
